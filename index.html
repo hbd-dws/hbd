@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Theom!</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to right, #fceabb, #f8b500);
+      text-align: center;
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+      height: 100vh;
+    }
+
+    h1 {
+      font-size: 10rem;
+      margin-top: 100px;
+      animation: pop 1s ease-out;
+    }
+
+    p {
+      font-size: 25px;
+    }
+
+    .cake {
+      font-size: 12rem;
+      margin-top: 10px;
+      cursor: pointer;
+      animation: bounce 2s infinite;
+    }
+
+    .cake:hover {
+      transform: scale(1.1);
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #letterModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #letterModal div {
+      background: white;
+      color: black;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 600px;
+      text-align: left;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    #closeLetter {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    #typedText {
+      white-space: pre-line;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti"></canvas>
+
+  <h1>🎉Happy Birthday!🎉 Wushuang! </h1>
+  <p>Hope you get everything you want this year... including a tall, cute, handsome surprise!</p>
+
+  <div class="cake" title="Click the cake for your birthday letter!" onclick="showLetter()">🎂</div>
+
+  <div id="letterModal">
+    <div>
+      <span id="closeLetter" onclick="closeLetter()">&times;</span>
+      <h2>Dear Wushuang,</h2>
+      <p id="typedText">
+Happy Birthday! 🎉
+
+I hope your day is filled with joy, laughter, and unforgettable memories.
+You deserve all the happiness in the world — not just today, but every single day.
+
+Thank you for being the amazing person you are. 
+Keep shining, keep dreaming, and keep being awesome! 🌟
+
+With all my best wishes,
+🥳 Your Friend
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let confetti = Array.from({ length: 150 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      r: Math.random() * 6 + 2,
+      d: Math.random() * 10 + 5,
+      color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+      tilt: Math.random() * 10 - 5
+    }));
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach(c => {
+        ctx.beginPath();
+        ctx.fillStyle = c.color;
+        ctx.ellipse(c.x, c.y, c.r, c.r / 2, c.tilt, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      updateConfetti();
+    }
+
+    function updateConfetti() {
+      confetti.forEach(c => {
+        c.y += c.d / 2;
+        c.x += Math.sin(c.tilt) * 2;
+        if (c.y > canvas.height) {
+          c.y = -10;
+          c.x = Math.random() * canvas.width;
+        }
+      });
+    }
+
+    setInterval(drawConfetti, 30);
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    function showLetter() {
+      document.getElementById('letterModal').style.display = 'flex';
+    }
+
+    function closeLetter() {
+      document.getElementById('letterModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
